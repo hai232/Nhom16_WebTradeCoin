@@ -1,21 +1,24 @@
 <?php
       session_start();
     //login.php TRUYỀN DỮ LIỆU SANG: NHẬN DỮ LIỆU TỪ login.php gửi sang
-    if(isset($_POST['btnSignIn'])){
         if(strpos($_POST['email'], ' ') !== false || strpos($_POST['email'], '"') !== false || strpos($_POST['email'], "'") !== false){
-            header("location:login.php");
+            echo json_encode(array(
+                'status' => 500,
+                'message' => "Bạn nhập thông tin Email hoặc mật khẩu chưa chính xác."
+            ));
+            return;
         }
         if(strpos($_POST['pass'], ' ') !== false || strpos($_POST['pass'], '"') !== false || strpos($_POST['pass'], "'") !== false){
-            header("location:login.php");
+            echo json_encode(array(
+                'status' => 500,
+                'message' => "Bạn nhập thông tin Email hoặc mật khẩu chưa chính xác."
+            ));
+            return;
         }
         $email = $_POST['email'];
         $pass  = $_POST['pass'];
         //Ở đây còn phải kiểm tra người dùng đã nhập chưa
 
-        $emailhash = "";
-        for( $i=0 ; $i < strlen($email) ; $i++){
-            $emailhash += ord($email[$i])
-        }
 
         // Bước 01: Kết nối Database Server
         $conn = mysqli_connect('localhost','root','','btl');
@@ -24,18 +27,25 @@
         }
         // Bước 02: Thực hiện truy vấn
 
-        $sql = "INSERT INTO user(email, pass) VALUES('$email','$pass')";
-
+        $sql = "SELECT * FROM user WHERE email = '$email'";
         $result = mysqli_query($conn,$sql);
         if(mysqli_num_rows($result) > 0){
-        }else{
-            $_SESSION['isLoginOK'] = $email;
-            header("location: profile.php?error=$error"); //Chuyển hướng, hiển thị thông báo lỗi
+        mysqli_close($conn);
+        echo json_encode(array(
+            'status' => 500,
+            'message' => "Tk da ton tai"
+        ));
+        return;
         }
+
+        $sql = "INSERT INTO user(email, pass) VALUES('$email','$pass')";
+        mysqli_query($conn,$sql);
+        $_SESSION['id'] = $email;
+            echo json_encode(array(
+                'status' => 200,
+                'message' => "Register Successful."
+            ));
 
         // Bước 03: Đóng kết nối
         mysqli_close($conn);
-    }else{
-        header("location:login.php");
-    }
 ?>
