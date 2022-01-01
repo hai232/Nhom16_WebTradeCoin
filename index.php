@@ -12,7 +12,7 @@
   <a href="#about">About</a>
   <a href="#contact">Contact</a>
 
-      <input type="text" placeholder="Search.." name="search" class="search-container">
+      <input type="text" id='search' placeholder="Search.." name="search" class="search-container">
 
 
   <?php
@@ -28,7 +28,11 @@
     </ul1>
   </li>
      </a1>';
-    echo '<a class="login">'.$_SESSION['id']."</a>";
+
+    echo '<a href="#" class="login" id = "deposit" >
+          Deposit
+        </a>';
+
   }else{
     echo '<a href="#login" class="login" onclick="openForm()">Login</a>';
     echo '<a href="#signup" class="login" onclick="openForm_signup()">Sigup</a>';
@@ -39,13 +43,16 @@
 <br>
 <br>
 <br>
+<div> </div>
 
-
-  <table style="width: 100%" id = 'table'>
+  <table  id = 'table'>
     <colgroup>
+      <col span="1" style="min-width: 35px;width: 0%;">
        <col span="1" style="width: 15%;">
-       <col span="1" style="width: 70%;">
        <col span="1" style="width: 15%;">
+       <col span="1" style="width: 15%;">
+       <col span="1" style="width: 15%;">
+       <col span="1" style="width: 40%;">
     </colgroup>
     
     
@@ -56,7 +63,7 @@
     </tbody>
 </table>
 
-  <div id="light" class="white_content"><a>This is the lightbox content. </a><a href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">Close</a>
+  <div id="light" class="white_content"><a>message. </a><a href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">Close</a>
   </div>
   <div id="fade" class="black_overlay" onclick="close_Mess()"></div>
 
@@ -77,6 +84,27 @@
   </form>
 </div>
 
+
+
+<div class="form-popup" id="DepositForm">
+  <form onsubmit="return false" class="form-container">
+    <h1>Deposit</h1>
+
+    <select name="wallet" id="wallet" style="width : 100% ; height:30px;line-height:30px;">
+      <option value="demo">Demo</option>
+      <option value="live">Live</option>
+  </select>
+
+    <label for="psw"><b>Amount</b></label>
+    <input type="text" placeholder="USD" name="pass"  id="deposit_amount" required>
+    <button type="submit" name="btnSignIn" class="btn" id = "btnDeposit">Deposit</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+</div>
+
+
+
+
 <div class="form-popup" id="SignupForm">
   <form onsubmit="return false" class="form-container">
     <h1>Sign Up</h1>
@@ -89,175 +117,17 @@
     <input type="password" placeholder="********" name="retype-pass" id="retype-pass" required>
     <input type="checkbox" value="remember-me"> Remember me
     <button type="" name="btnSignIn" class="btn" id = "btnSignUp" >Sign_up</button>
-    <button type="button" class="btn cancel" onclick="closeForm_signup()">Close</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
   </form>
 </div>
 
-<script>
-
-function ShowTradeTable(coin){
-  $("#trade").text(coin);
-  document.querySelector('footer').style = 'display: block';
-}
-function ShowMess(mess){
-  $("#light").text(mess);
-  document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block';
-}
-
-function close_Mess(){
-  if(document.getElementById('light').style.display =='block'){
-  document.getElementById('light').style.display='none';
-  }
-  if(document.getElementById("LoginForm").style.display == 'none' && document.getElementById("SignupForm").style.display == 'none' ){
-    document.getElementById('fade').style.display='none';
-  }
-}
-
-
-function openForm() {
-  document.getElementById('fade').style.display='block';
-  document.getElementById("LoginForm").style.display = "block";
-}
-
-function closeForm() {
-  document.getElementById('fade').style.display='none';
-  document.getElementById("LoginForm").style.display = "none";
-}
-
-function openForm_signup() {
-  document.getElementById('fade').style.display='block';
-  document.getElementById("SignupForm").style.display = "block";
-}
-
-function closeForm_signup() {
-  document.getElementById('fade').style.display='none';
-  document.getElementById("SignupForm").style.display = "none";
-}
-
-function getcoin(){
-  $.ajax({
-                url:"price.php",
-                type:"POST",
-                data:{},
-                success:function(data){ 
-                  vaaaa = JSON.parse(data)
-                  coinlist = [];
-                  for(i=0 ; i < vaaaa.length ; i++){
-                        if(vaaaa[i].symbol.substr(vaaaa[i].symbol.length-4).includes("USDT")){
-                          coinlist.push(vaaaa[i])
-                        }
-                    }
-                    document.getElementById('list').innerHTML = '';
-                    tr = table.insertRow(-1)
-                    cell1 = tr.insertCell(-1);
-                    cell2 = tr.insertCell(-1);
-                    cell3 = tr.insertCell(-1);
-                    cell1.innerHTML = 'Name';
-                    cell2.innerHTML = 'price';
-                    cell3.innerHTML = "NEW CELL1";
-                    for(i=0 ; i < coinlist.length ; i++){
-                    tr = table.insertRow(-1)
-                    cell1 = tr.insertCell(-1);
-                    cell2 = tr.insertCell(-1);
-                    cell3 = tr.insertCell(-1);
-                    cell1.innerHTML = coinlist[i].symbol;
-                    cell2.innerHTML = Number(coinlist[i].price);
-                    cell3.innerHTML = "NEW CELL1";
-                    }
-                    $("#table tr").click(function() {
-
-                    ShowTradeTable($(this).children("td").html())
-
-});
-                }  
-            })
-  
-}
-
-let emailPatern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-$(document).ready(function(){
-  getcoin();
-  setInterval(getcoin, 1000000);
-
-    $("#btnSignUp").click(function(){
-      if ($("#reg_email").val() == "" || $("#reg_pass").val() == "" || $("#retype-pass").val() == "") {return}
-      if ($("#reg_pass").val() !==  $("#retype-pass").val()) {
-        ShowMess("Password not matching")
-      } else if(emailPatern.test($("#reg_email").val()) == false){
-        ShowMess("Invalid Email Address Format")
-        }else{
-          $.ajax({
-                url:"process_signup.php",
-                type:"POST",
-                data:{email:$("#reg_email").val() , name:"" , pass:$("#reg_pass").val()},
-                success:function(data){ 
-                  data = JSON.parse(data)
-                  if(data.status == 200){
-                    location.reload();
-                  }
-                  if(data.status == 500){
-                    ShowMess(data.message);
-                  } 
-                }   
-            })
-        }
-    })
-
-
-    $("#btnSignIn").click(function(){
-      if ($("#log_email").val() == "" || $("#log_pass").val() == "") {return}
-      if(emailPatern.test($("#log_email").val()) == false){
-        ShowMess("Invalid Email Address Format")
-        }else{
-          $.ajax({
-                url:"process_login.php",
-                type:"POST",
-                data:{email:$("#log_email").val() , name:"" , pass:$("#log_pass").val()},
-                success:function(data){ 
-                  data = JSON.parse(data)
-                  if(data.status == 200){
-                    location.reload();
-                  }
-                  if(data.status == 500){
-                    ShowMess(data.message);
-                  } 
-                }  
-            })
-        }
-    })
-
-})
-
-$("#logout").click(function() {
-  $.ajax({
-                url:"logout.php",
-                type:"POST",
-                data:{},
-                success:function(data){
-                  location.reload();
-                }  
-            })
-});
-
-$(".drop")
-  .mouseover(function() {
-  $(".dropdown").show(0);
-});
-$(".drop")
-  .mouseleave(function() {
-  $(".dropdown").hide(0);     
-});
-
-
-
-</script>
+<script src='javascript.js'></script>
 
 
 </body>
 <footer>
   <div id='trade'>
-    asdsadasd
+    BTCUSDT
   </div>
 </footer>
 </html>
