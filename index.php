@@ -22,14 +22,14 @@
     <a2 class="drop" style=" display: flex;justify-content: center;align-items: center;overflow: hidden; width: 50px;;height: 50px; ><a href="#">
     <img src="images/user_icon.png" style="width: 50px;height: 50px;"></a>
     <ul1 class="dropdown" >
-      <a  href="#" style="width: 100px;height: 50px;" >Profile</a>
-      <a  href="#" style="width: 100px;height: 50px;" >Setting</a>
+      <a  style=" cursor: pointer; width: 100px;height: 50px;" >Profile</a>
+      <a  style=" cursor: pointer;  width: 100px;height: 50px;" >Setting</a>
       <a id = "logout" href="#" style="width: 100px;height: 50px;" > Log Out</a>
     </ul1>
   </li>
      </a1>';
 
-    echo '<a href="#" class="login" id = "deposit" >
+    echo '<a style=" cursor: pointer;" class="login" id = "deposit" >
           Deposit
         </a>';
 
@@ -47,12 +47,12 @@
 
   <table  id = 'table'>
     <colgroup>
-      <col span="1" style="min-width: 35px;width: 0%;">
+      <col span="1" style="width: 0%;">
+       <col span="1" style="width: 10%;">
        <col span="1" style="width: 15%;">
        <col span="1" style="width: 15%;">
-       <col span="1" style="width: 15%;">
-       <col span="1" style="width: 15%;">
-       <col span="1" style="width: 40%;">
+       <col span="1" style="width: 60%;">
+       <col span="1" style="width: 0%;">
     </colgroup>
     
     
@@ -125,9 +125,10 @@
 
 
 </body>
-<footer>
+<tradepad  >
+  <a  style = " cursor: pointer; width: 30px; position: absolute; right: 0px;" onclick= "document.querySelector('tradepad').style = 'display: none'";><img style = "left:0px" width="20px" src="images/close.png"></div>
   <div id='trade'>
-    BTCUSDT
-  </div>
-</footer>
+    
+</a>
+</tradepad>
 </html>

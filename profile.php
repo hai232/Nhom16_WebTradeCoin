@@ -14,7 +14,7 @@
         $balance =  $result->fetch_assoc()["balance"];
         echo json_encode(array(
             'status' => 500,
-            'message' => "'$balance'"
+            'message' => $balance
         ));
 
         

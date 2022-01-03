@@ -1,8 +1,20 @@
 
-function ShowTradeTable(coin){
-    $("#trade").text(coin);
-    document.querySelector('footer').style = 'display: block';
-  }
+    function GetUserInfo(coin){
+      $.ajax({
+        url:"profile.php",
+        type:"POST",
+        data:{},
+        success:function(data){
+          data = JSON.parse(data)
+          balance = data.message;
+        }   
+    })
+    }
+
+  function ShowTradeTable(coin){
+      $("#trade").text(coin);
+      document.querySelector('tradepad').style = 'display: block';
+    }
   function ShowMess(mess){
     $("#light").text(mess);
     document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block';
@@ -17,6 +29,8 @@ function ShowTradeTable(coin){
     }
   }
   
+
+
   
   function openForm() {
     document.getElementById('fade').style.display='block';
@@ -35,19 +49,21 @@ function ShowTradeTable(coin){
     document.getElementById("SignupForm").style.display = "block";
   }
   balance = 0;
-  
+  coindata = [];
   soft_type = 0;
   coin_recent = [];
   coinview = [];
   function softcoin(){
+    coinlist = coindata.slice();
     document.getElementById('list').innerHTML = '';
                       tr = table.insertRow(-1)
                       cell1 = tr.insertCell(-1);
                       cell2 = tr.insertCell(-1);
                       cell3 = tr.insertCell(-1);  
                       cell4 = tr.insertCell(-1);
+                      cell5 = tr.insertCell(0);
                       if(soft_type == 1 || soft_type ==2){
-                      cell1.innerHTML = "<div style='color:rgb(240, 185, 11)' onclick= 'soft_type != 1 ? soft_type != 2 ? soft_type = 1 : soft_type = 0 : soft_type = 2 ; softcoin()' >Name</div>";
+                      cell1.innerHTML = "<div style=' color:rgb(240, 185, 11)' onclick= 'soft_type != 1 ? soft_type != 2 ? soft_type = 1 : soft_type = 0 : soft_type = 2 ; softcoin()' >Name</div>";
                       }else cell1.innerHTML = "<div onclick= 'soft_type != 1 ? soft_type != 2 ? soft_type = 1 : soft_type = 0 : soft_type = 2 ; softcoin()' >Name</div>";
                       
                       if(soft_type == 3 || soft_type ==4){
@@ -77,10 +93,13 @@ function ShowTradeTable(coin){
                           coinlist[i].priceChangePercent_html ="<span style='color: red;'>"+(Math.round(coinlist[i].priceChangePercent*100)/100).toFixed(2) + '% </span>' ;
                           }else coinlist[i].priceChangePercent_html = "<span style='color: #4ff03a;'>"+(Math.round(coinlist[i].priceChangePercent*100)/100).toFixed(2) + '% </span>' ;
                           
-                          coinlist[i].quoteVolume_html = '$' + (Number(coinlist[i].quoteVolume).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  
+                          coinlist[i].quoteVolume_html =  "<span style='color: yellow'>" + '$' + (Number(coinlist[i].quoteVolume).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," );
+                          
                           coinview[i] =coinlist[i];
                       }
+                      coin_recent = coindata.splice();
+                      console.log(coindata)
+                      coinlist=[];
   
                       switch(soft_type) {
                         //A>Z
@@ -155,14 +174,16 @@ function ShowTradeTable(coin){
                           cell2 = tr.insertCell(-1);
                           cell3 = tr.insertCell(-1);
                           cell4 = tr.insertCell(-1);
+                          cell5 = tr.insertCell(0);
                           cell1.innerHTML = coinview[i].symbol;
                           cell2.innerHTML = coinview[i].price_html;
                           cell3.innerHTML = coinview[i].priceChangePercent_html;
                           cell4.innerHTML = coinview[i].quoteVolume_html;
+                          cell5.innerHTML = '<img style="border-radius: 15px" height="30px" width="30px" src=" images/'+coinview[i].symbol +'.svg"></img>';
                         }
                         
                       }
-                      coin_recent = coinlist;
+
   }
   
   function getcoin(){
@@ -172,20 +193,21 @@ function ShowTradeTable(coin){
                   data:{},
                   success:function(data){ 
                     vaaaa = JSON.parse(data)
-                    coinlist = [];
+                    coindata = [];
                     for(i=0 ; i < vaaaa.length ; i++){
                           if(vaaaa[i].lastPrice != 0 && vaaaa[i].symbol.substr(vaaaa[i].symbol.length-4).includes("USDT")){
                             vaaaa[i].symbol = vaaaa[i].symbol.substr(0,vaaaa[i].symbol.length-4);
-                            coinlist.push(vaaaa[i])
+                            if(vaaaa[i].symbol.substr(vaaaa[i].symbol.length-2 ) != "UP"){
+                            if(vaaaa[i].symbol.substr(vaaaa[i].symbol.length-4 ) != "DOWN"){
+                            coindata.push(vaaaa[i])}}
                           }
                       }
                       softcoin();
-                      document.querySelector('footer').style = 'display: block';
                       $("#table tr").click(function() {
-  
-                      ShowTradeTable($(this).children("td").html())
-  
-  });
+                        if($(this).children("td")[1].innerText != "Name"){
+                      ShowTradeTable($(this).children("td")[1].innerText)}
+                    
+                    });
                   }  
               })
     
@@ -194,9 +216,9 @@ function ShowTradeTable(coin){
   let emailPatern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   
   $(document).ready(function(){
-    
+    GetUserInfo();
     getcoin();
-    setInterval(getcoin, 4000);
+    setInterval(getcoin , 3333);
       
       
 
