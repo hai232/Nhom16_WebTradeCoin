@@ -9,13 +9,17 @@
         }
         // Bước 02: Thực hiện truy vấn
 
-        $sql = "SELECT balance FROM demo_wallet WHERE email = '$email' AND coin='USD'";
+        $sql = "SELECT * FROM user_trade WHERE email = '$email'";
         $result = mysqli_query($conn,$sql);
         if(mysqli_num_rows($result) > 0){
-            $balance =  $result->fetch_assoc()["balance"];
+            $rows = [];
+            while($row = mysqli_fetch_array($result))
+            {
+                $rows[] = $row;
+            }
             echo json_encode(array(
                 'status' => 500,
-                'message' => $balance
+                'message' => $rows
             ));
         }else echo json_encode(array(
             'status' => 500,

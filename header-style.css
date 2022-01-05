@@ -7,14 +7,76 @@ body {
 
 @import url(https://fonts.googleapis.com/css?family=Montserrat:300&subset=latin-ext);
 
+.wrap {
+  width: 100%;
+  height: 70%;
+}
+.wrap table {
+  table-layout: fixed;
+  width: 100%;
+  height: 70%;
+}
+.wrap table.head {
+  width: calc(100% - 15px);
+}
+.wrap table.head tr td {
+  background: #eee;
+}
 
-table {
+table tr td {
+  padding: 5px;
+}
+
+.table_trade tr:nth-child(odd) {
+  height: 40px;
+  background-color: #323C50;
+  font-weight: 100 ; 
+  color:rgb(255, 255, 255);
+}
+
+/* Background-color of the even rows */
+.table_trade tr:nth-child(even) {
+  height: 40px;
+  background-color: #2C3446;
+  font-weight: 100 ; 
+  color:rgb(255, 255, 255);
+}
+
+.scroll-table {
+  overflow-y: auto;
+  height: 50vh;
+}
+
+.sidenav {
+  border-right: solid ;
+  font-size: 1.3vw;
+  height: 100%;
+  width: 10%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+.sidenav a {
+  cursor: pointer;
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.coin_view {
+  float: right;
   border-collapse: collapse;
   width: 90%;
   left: 0%;
+  margin-left: 10%;
 }
 
-th, td {
+.coin_view th, .coin_view td {
   font-size: 20px;
   font-weight: 100 ; 
   color:rgb(255, 255, 255);
@@ -26,11 +88,11 @@ th, td {
 
 
 
-tr:nth-child(even) {
+.coin_view tr:nth-child(even) {
   background-color: rgb(53, 56, 53);
 }
 
-tr:nth-child(odd) {
+.coin_view tr:nth-child(odd) {
   background-color: rgb(117, 117, 117);
 }
 
@@ -157,11 +219,11 @@ nav ul li ul li a:focus {
 }
 
 tradepad {
+  margin-left: 10%;
   padding-top: 25px;
-  box-shadow: 0px -4px 0px rgba(0, 0, 0, 2.75);
   display: none;
   width: 90%;
-  height: 20%;
+  height: 30%;
   position: fixed;
   bottom: 0px;
   left: 0px;
@@ -178,11 +240,11 @@ tradepad {
   height: 56px;
   position: fixed;
   width: 100%;
-
+  z-index: 1;
   background-color: #bda27b;
 }
 
-table tbody tr:hover td, .table-hover tbody tr:hover th {
+.coin_view tbody tr:hover td, .table-hover tbody tr:hover th {
   background-color: #111;
   cursor: pointer;
 }
@@ -237,9 +299,9 @@ table tbody tr:hover td, .table-hover tbody tr:hover th {
 }
 
 .topnav .search-container {
-  width: 30%;
+  width: 20%;
   float: center;
-  margin-left: 15%;
+  margin-left: 5%;
   position: relative;
   border-radius: 10px;
 }
