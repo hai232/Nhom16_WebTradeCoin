@@ -21,7 +21,7 @@
     <a2 class="drop" style=" display: flex;justify-content: center;align-items: center;overflow: hidden; width: 50px;;height: 50px; ><a href="#">
     <img src="images/user_icon.png" style="width: 50px;height: 50px;"></a>
     <ul1 class="dropdown" >
-      <a  style=" cursor: pointer; width: 100px;height: 50px;" >Profile</a>
+      <a  style=" cursor: pointer; width: 100px;height: 50px;" id = "profile">Profile</a>
       <a  style=" cursor: pointer;  width: 100px;height: 50px;" >Setting</a>
       <a id = "logout" href="#" style="width: 100px;height: 50px;" > Log Out</a>
     </ul1>
@@ -106,7 +106,21 @@
 </div>
 </div>
 
+<div class=" form-profile" id="ProfileForm">
+  <div >
+  <form onsubmit="return false" class="form-profile-container" >
+    <h1>Profile</h1>
 
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Email" name="email" id="log_email" disabled>
+    </br>
+    <label for="psw"><b>Balance</b></label>
+    </br>
+    <button type="submit" name="btnSignIn" class="btn">Confirm</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+  </div>
+</div>
 
 <div class="form-popup" id="LoginForm">
   <form onsubmit="return false" class="form-container">
@@ -114,7 +128,6 @@
 
     <label for="email"><b>Email</b></label>
     <input type="text" placeholder="Email" name="email" id="log_email" required>
-
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="********" name="pass"  id="log_pass" required>
     <input type="checkbox" value="remember-me"> Remember me
@@ -174,17 +187,17 @@
     </h1>
     <div style="  margin: auto;width: 50%;padding: 10px;" >
       <div  style="display: table-cell">
-        <label><b>Amount</b></label>
-        <input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" type="text" placeholder="USD" name="pass" id="amount" required>
+        <label><b>Total</b></label>
+        <input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" type="text" placeholder="USD" class="inputUSD" id="amount" required>
       </div>
       <div  style="display: table-cell">
-        <label><b>Total</b></label>
-        <input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" type="text" placeholder="USD" name="pass"  required>
+        <label><b>Amount</b></label>
+        <input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" type="text" placeholder="0" class="disabled" id="amount_coin" disabled >
       </div>
     </div>
     <div>
       <button type="submit" class="btn" id = "long">Buy</button>
-      <button type="button" class="btn cancel"  id="short" >Sell</button>
+      <button type="submit" class="btn cancel"  id="short" >Sell</button>
     </div>
   </form>
 </tradepad>

@@ -1,4 +1,19 @@
 coin_name="BTC";
+
+function StopTrade(id){
+  $.ajax({
+    url:"stop_trade.php",
+    type:"POST",
+    data:{trade_id:id},
+    success:function(data){
+      data = JSON.parse(data)
+      GetUserInfo();
+      setTimeout(UpdateMyTrade,20);
+    }
+})
+}
+
+
 function GetUserInfo(){
       $.ajax({
         url:"profile.php",
@@ -7,7 +22,7 @@ function GetUserInfo(){
         success:function(data){
           data = JSON.parse(data)
           balance = data.message;
-          $("#balance").text("$" + balance);
+          $("#balance").text("$" + Math.floor(balance*100)/100);
         }
     })
     }
@@ -61,7 +76,7 @@ function GetUserInfo(){
             var cell7 = row.insertCell(-1);
             if(my_trade[i].type == "sell"){
               cell1.innerHTML = '<div style="background-color: red;">'+my_trade[i].type+'</div>';
-            }else cell1.innerHTML = '<div style="background-color: green;">'+my_trade[i].type+'</div>';
+            }else cell1.innerHTML = '<div style="background-color: #15b800;">'+my_trade[i].type+'</div>';
             
             cell2.innerHTML = my_trade[i].coin;
             cell3.innerHTML = Number(my_trade[i].balance).toLocaleString(undefined, {maximumSignificantDigits: 5});
@@ -69,7 +84,7 @@ function GetUserInfo(){
             cell4.innerHTML = Number(my_trade[i].buy_price).toLocaleString(undefined, {maximumSignificantDigits: 5});
             cell5.innerHTML = Number(coindata.find(x => x.symbol === my_trade[i].coin).lastPrice).toLocaleString(undefined, {maximumSignificantDigits: 5});
             if(profit >= 0 ){
-              cell6.innerHTML = '<div style="color: green;">'+profit+'</div>';
+              cell6.innerHTML = '<div style="color: #15b800;">'+profit+'</div>';
             }else cell6.innerHTML = '<div style="color: red;">'+profit+'</div>';
             
             cell7.innerHTML = '<div style="background-color: rgb(92, 99, 0);cursor: pointer;" onclick = "StopTrade('+my_trade[i].trade_id+')">Stop</div>';
@@ -79,9 +94,6 @@ function GetUserInfo(){
       }
     }
 
-    function StopTrade(id){
-      console.log(id);
-    }
 
   function UpdateTradeTable(){
       cointrading =  coindata.find(x => x.symbol === coin_name);
@@ -93,7 +105,6 @@ function GetUserInfo(){
     if(isLogin){
       coin_name = coin;
       cointrading =  coindata.find(x => x.symbol === coin);
-      console.log(cointrading);
       $("#coin-name").text(coin);
       $("#coin-price").text(Number(cointrading.lastPrice).toLocaleString(undefined, {maximumSignificantDigits: 15}));
       document.querySelector('tradepad').style = 'display: block';
@@ -108,15 +119,17 @@ function GetUserInfo(){
     if(document.getElementById('light').style.display =='block'){
     document.getElementById('light').style.display='none';
     }
-    if(document.getElementById("MyTrade").style.display != 'block' && document.getElementById("LoginForm").style.display != 'block' && document.getElementById("SignupForm").style.display != 'block' && document.getElementById("DepositForm").style.display != 'block' ){
+    if(document.getElementById("ProfileForm").style.display != 'block' && document.getElementById("MyTrade").style.display != 'block' && document.getElementById("LoginForm").style.display != 'block' && document.getElementById("SignupForm").style.display != 'block' && document.getElementById("DepositForm").style.display != 'block' ){
       document.getElementById('fade').style.display='none';
     }
   }
   
   function openMyTrade() {
+    if(isLogin){
     document.getElementById('fade').style.display='block';
     document.getElementById("MyTrade").style.display = "block";
     UpdateMyTrade();
+    }else openForm();
   }
 
   
@@ -131,6 +144,7 @@ function GetUserInfo(){
     document.getElementById("DepositForm").style.display = "none";
     document.getElementById("SignupForm").style.display = "none";
     document.getElementById("MyTrade").style.display = "none";
+    document.getElementById("ProfileForm").style.display = "none";
     document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';
   }
   
@@ -347,11 +361,18 @@ function GetUserInfo(){
         softcoin();
       });
     
-  
+      $('#amount').on('input', function() {
+        $('#amount_coin').val(Math.round($('#amount').val()*10000000/cointrading.lastPrice)/10000000);
+      });
 
       $("#deposit").click(function(){
         document.getElementById('fade').style.display='block';
         document.getElementById("DepositForm").style.display = "block";
+      })
+
+      $("#profile").click(function(){
+        document.getElementById('fade').style.display='block';
+        document.getElementById("ProfileForm").style.display = "block";
       })
 
 
@@ -467,7 +488,8 @@ function GetUserInfo(){
         }
       })
 
-      
+
+  
   
   })
   

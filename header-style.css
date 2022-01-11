@@ -27,8 +27,14 @@ table tr td {
   padding: 5px;
 }
 
+.table_trade td{
+  height:15px;
+  max-height: 40px;
+}
+
 .table_trade tr:nth-child(odd) {
   height: 40px;
+  max-height: 40px;
   background-color: #323C50;
   font-weight: 100 ; 
   color:rgb(255, 255, 255);
@@ -37,6 +43,7 @@ table tr td {
 /* Background-color of the even rows */
 .table_trade tr:nth-child(even) {
   height: 40px;
+  max-height: 40px;
   background-color: #2C3446;
   font-weight: 100 ; 
   color:rgb(255, 255, 255);
@@ -55,7 +62,7 @@ table tr td {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color: #1E2329;
   transition: 0.5s;
   padding-top: 60px;
 }
@@ -237,11 +244,12 @@ tradepad {
 
 
 .topnav {
+  min-width: 500px;
   height: 56px;
   position: fixed;
   width: 100%;
   z-index: 1;
-  background-color: #bda27b;
+  background-color: #181A20;
 }
 
 .coin_view tbody tr:hover td, .table-hover tbody tr:hover th {
@@ -289,8 +297,7 @@ tradepad {
 }
 
 .topnav a:hover {
-  background-color: #bda27b;
-  color: black;
+  color: rgb(255, 253, 113);
 }
 
 .topnav a.active {
@@ -308,6 +315,7 @@ tradepad {
 
 
 .topnav .login {
+  color: white;
   float: right;
   margin-right: 15px;
   margin-top: 3px;
